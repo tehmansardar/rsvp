@@ -1,10 +1,14 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import GuestContext from '../../context/guestContext/GuestContext';
 import Guest from './Guest';
 
 const Guests = () => {
+	const { guests } = useContext(GuestContext);
 	return (
 		<div className='guests'>
-			<Guest />
+			{guests.map((guest) => (
+				<Guest key={guest.id} guest={guest} />
+			))}
 		</div>
 	);
 };

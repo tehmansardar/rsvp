@@ -4,9 +4,32 @@ import guestReducer from './GuestReducer';
 
 const GuestState = (props) => {
 	const initialState = {
-		guests: [],
+		guests: [
+			{
+				id: 1,
+				name: 'Tehman Sardar',
+				phone: '111 222 3333',
+				diet: 'Veg',
+				isconfirmed: false,
+			},
+			{
+				id: 2,
+				name: 'Zeeshan Sardar',
+				phone: '222 111 4444',
+				diet: 'Non-Veg',
+				isconfirmed: true,
+			},
+			{
+				id: 3,
+				name: 'Salman Sardar',
+				phone: '111 222 3333',
+				diet: 'Pasc',
+				isconfirmed: false,
+			},
+		],
 	};
 	const [state, dispatch] = useReducer(guestReducer, initialState);
+
 	return (
 		<GuestContext.Provider value={{ guests: state.guests }}>
 			{props.children}
