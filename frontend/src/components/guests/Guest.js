@@ -1,7 +1,13 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import GuestContext from '../../context/guestContext/GuestContext';
 
 const Guest = ({ guest }) => {
-	const { name, phone, diet, isconfirmed } = guest;
+	const { removeGuest } = useContext(GuestContext);
+	const { id, name, phone, diet, isconfirmed } = guest;
+
+	const handleRemove = () => {
+		removeGuest(id);
+	};
 	return (
 		<div className='guest-card'>
 			<div className='card-head'>
@@ -18,7 +24,7 @@ const Guest = ({ guest }) => {
 					<button>
 						<i className='fas fa-user-edit'></i>
 					</button>
-					<button>
+					<button onClick={handleRemove}>
 						<i className='fas fa-trash-alt remove'></i>
 					</button>
 				</div>

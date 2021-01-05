@@ -3,6 +3,7 @@ import {
 	SEARCH_GUEST,
 	CLEAR_SEARCH,
 	ADD_GUEST,
+	REMOVE_GUEST,
 } from '../guestContext/types';
 
 export default (state, { type, payload }) => {
@@ -30,6 +31,12 @@ export default (state, { type, payload }) => {
 			return {
 				...state,
 				guests: [...state.guests, payload],
+			};
+
+		case REMOVE_GUEST:
+			return {
+				...state,
+				guests: state.guests.filter((guest) => guest.id !== payload),
 			};
 
 		default:
