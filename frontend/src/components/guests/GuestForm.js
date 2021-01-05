@@ -18,12 +18,17 @@ const GuestForm = () => {
 
 	const onsubmit = (e) => {
 		e.preventDefault();
-		addGuest(guest);
-		setGuest({
-			name: '',
-			phone: '',
-			diet: 'Non-Veg',
-		});
+		if (name !== '' && phone !== '') {
+			addGuest(guest);
+
+			setGuest({
+				name: '',
+				phone: '',
+				diet: 'Non-Veg',
+			});
+		} else {
+			alert('Please Fill Form correctly');
+		}
 	};
 
 	const { name, phone, diet } = guest;

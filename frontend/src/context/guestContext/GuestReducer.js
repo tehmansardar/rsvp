@@ -4,6 +4,7 @@ import {
 	CLEAR_SEARCH,
 	ADD_GUEST,
 	REMOVE_GUEST,
+	UPDATE_GUEST,
 } from '../guestContext/types';
 
 export default (state, { type, payload }) => {
@@ -37,6 +38,13 @@ export default (state, { type, payload }) => {
 			return {
 				...state,
 				guests: state.guests.filter((guest) => guest.id !== payload),
+			};
+		case UPDATE_GUEST:
+			return {
+				...state,
+				guests: state.guests.map((guest) =>
+					guest.id === payload.id ? payload : guest
+				),
 			};
 
 		default:

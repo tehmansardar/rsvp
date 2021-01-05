@@ -7,6 +7,7 @@ import {
 	CLEAR_SEARCH,
 	ADD_GUEST,
 	REMOVE_GUEST,
+	UPDATE_GUEST,
 } from '../guestContext/types';
 
 const GuestState = (props) => {
@@ -75,6 +76,13 @@ const GuestState = (props) => {
 		});
 	};
 
+	const updateGuest = (guest) => {
+		dispatch({
+			type: UPDATE_GUEST,
+			payload: guest,
+		});
+	};
+
 	return (
 		<GuestContext.Provider
 			value={{
@@ -86,6 +94,7 @@ const GuestState = (props) => {
 				clearSearch,
 				addGuest,
 				removeGuest,
+				updateGuest,
 			}}
 		>
 			{props.children}
