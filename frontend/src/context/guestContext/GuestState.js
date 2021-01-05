@@ -5,6 +5,7 @@ import {
 	TOGGLE_FILTER,
 	SEARCH_GUEST,
 	CLEAR_SEARCH,
+	ADD_GUEST,
 } from '../guestContext/types';
 
 const GuestState = (props) => {
@@ -56,6 +57,16 @@ const GuestState = (props) => {
 		});
 	};
 
+	const addGuest = (guest) => {
+		guest.id = Date.now();
+		guest.isconfirmed = false;
+
+		dispatch({
+			type: ADD_GUEST,
+			payload: guest,
+		});
+	};
+
 	return (
 		<GuestContext.Provider
 			value={{
@@ -65,6 +76,7 @@ const GuestState = (props) => {
 				toggleFilter,
 				searchGuest,
 				clearSearch,
+				addGuest,
 			}}
 		>
 			{props.children}

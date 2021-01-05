@@ -2,6 +2,7 @@ import {
 	TOGGLE_FILTER,
 	SEARCH_GUEST,
 	CLEAR_SEARCH,
+	ADD_GUEST,
 } from '../guestContext/types';
 
 export default (state, { type, payload }) => {
@@ -23,6 +24,12 @@ export default (state, { type, payload }) => {
 			return {
 				...state,
 				search: null,
+			};
+
+		case ADD_GUEST:
+			return {
+				...state,
+				guests: [...state.guests, payload],
 			};
 
 		default:
