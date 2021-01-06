@@ -1,7 +1,21 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import GuestContext from '../../context/guestContext/GuestContext';
 const GuestForm = () => {
-	const { addGuest } = useContext(GuestContext);
+	const { addGuest, editAble, updateGuest, clearEdit } = useContext(
+		GuestContext
+	);
+
+	useEffect(() => {
+		if (editAble !== null) {
+			setGuest(editAble);
+		} else {
+			setGuest({
+				name: '',
+				phone: '',
+				diet: 'Non-Veg',
+			});
+		}
+	}, [editAble]);
 
 	const [guest, setGuest] = useState({
 		name: '',
@@ -19,13 +33,17 @@ const GuestForm = () => {
 	const onsubmit = (e) => {
 		e.preventDefault();
 		if (name !== '' && phone !== '') {
-			addGuest(guest);
-
-			setGuest({
-				name: '',
-				phone: '',
-				diet: 'Non-Veg',
-			});
+			if (editAble !== null) {
+				updateGuest(guest);
+				clearEdit();
+			} else {
+				addGuest(guest);
+				setGuest({
+					name: '',
+					phone: '',
+					diet: 'Non-Veg',
+				});
+			}
 		} else {
 			alert('Please Fill Form correctly');
 		}
@@ -34,7 +52,7 @@ const GuestForm = () => {
 	const { name, phone, diet } = guest;
 	return (
 		<div className='invite-section'>
-			<h1>Invite Someone</h1>
+			<h1>{editAble !== null ? 'Edit Guest' : 'Invite Someone'}</h1>
 			<form onSubmit={onsubmit}>
 				<input
 					type='text'
@@ -86,7 +104,19 @@ const GuestForm = () => {
 						<span className='checkmark'></span>
 					</label>
 				</div>
-				<input type='submit' value='Add Guest' className='btn' />
+				<input
+					type='submit'
+					value={editAble !== null ? 'Update Guest' : 'Add Guest'}
+					className='btn'
+				/>
+				{editAble !== null ? (
+					<input
+						type='button'
+						className='btn clear'
+						value='Cancel'
+						onClick={clearEdit}
+					/>
+				) : null}
 			</form>
 		</div>
 	);

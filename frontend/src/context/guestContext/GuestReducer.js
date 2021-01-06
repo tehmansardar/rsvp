@@ -5,6 +5,8 @@ import {
 	ADD_GUEST,
 	REMOVE_GUEST,
 	UPDATE_GUEST,
+	EDIT_GUEST,
+	CLEAR_EDIT,
 } from '../guestContext/types';
 
 export default (state, { type, payload }) => {
@@ -46,7 +48,16 @@ export default (state, { type, payload }) => {
 					guest.id === payload.id ? payload : guest
 				),
 			};
-
+		case EDIT_GUEST:
+			return {
+				...state,
+				editAble: payload,
+			};
+		case CLEAR_EDIT:
+			return {
+				...state,
+				editAble: null,
+			};
 		default:
 			return state;
 	}

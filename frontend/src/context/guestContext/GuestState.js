@@ -8,12 +8,15 @@ import {
 	ADD_GUEST,
 	REMOVE_GUEST,
 	UPDATE_GUEST,
+	EDIT_GUEST,
+	CLEAR_EDIT,
 } from '../guestContext/types';
 
 const GuestState = (props) => {
 	const initialState = {
 		filterGuest: false,
 		search: null,
+		editAble: null,
 		guests: [
 			{
 				id: 1,
@@ -83,18 +86,34 @@ const GuestState = (props) => {
 		});
 	};
 
+	const editGuest = (guest) => {
+		dispatch({
+			type: EDIT_GUEST,
+			payload: guest,
+		});
+	};
+
+	const clearEdit = () => {
+		dispatch({
+			type: CLEAR_EDIT,
+		});
+	};
+
 	return (
 		<GuestContext.Provider
 			value={{
 				guests: state.guests,
 				filterGuest: state.filterGuest,
 				search: state.search,
+				editAble: state.editAble,
 				toggleFilter,
 				searchGuest,
 				clearSearch,
 				addGuest,
 				removeGuest,
 				updateGuest,
+				editGuest,
+				clearEdit,
 			}}
 		>
 			{props.children}

@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import GuestContext from '../../context/guestContext/GuestContext';
 
 const Guest = ({ guest }) => {
-	const { removeGuest, updateGuest } = useContext(GuestContext);
+	const { removeGuest, updateGuest, editGuest } = useContext(GuestContext);
 	const { id, name, phone, diet, isconfirmed } = guest;
 
 	const handleRemove = () => {
@@ -28,7 +28,7 @@ const Guest = ({ guest }) => {
 					</label>
 				</div>
 				<div>
-					<button>
+					<button onClick={() => editGuest(guest)}>
 						<i className='fas fa-user-edit'></i>
 					</button>
 					<button onClick={handleRemove}>
