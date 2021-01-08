@@ -1,8 +1,12 @@
 import express from 'express';
 import { check, validationResult } from 'express-validator';
 
+// User model
+import User from '../models/User.js';
+
 //config
 const router = express.Router();
+
 // http://localhost:5000/register
 router.post(
 	'/',
