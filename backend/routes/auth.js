@@ -4,7 +4,9 @@ import dotenv from 'dotenv';
 import { check, validationResult } from 'express-validator';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+
 // middleware
+import auth from '../middleware/auth.js';
 
 // app config
 const router = express.Router();
@@ -14,6 +16,11 @@ dotenv.config();
 import User from '../models/User.js';
 
 // api routes
+
+// @route POST /auth
+// @des Login user
+// @access Public
+
 router.post(
 	'/',
 	[
@@ -62,5 +69,19 @@ router.post(
 		}
 	}
 );
+
+// @route Get /auth
+// @des Get user
+// @access Private
+
+router.get('/', auth, async (req, res) => {
+	try {
+		const user = await User.findById(req.user.id).select('-password');
+		res.json(user);
+	} catch (err) {
+		console.error(err.message);
+		res.status(500).send('Server Error');
+	}
+});
 
 export default router;
