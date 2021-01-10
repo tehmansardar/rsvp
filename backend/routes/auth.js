@@ -1,48 +1,44 @@
+// importing
 import express from 'express';
 import dotenv from 'dotenv';
 import { check, validationResult } from 'express-validator';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+// middleware
 
-// User model
-import User from '../models/User.js';
-
-//config
+// app config
 const router = express.Router();
 dotenv.config();
 
-// http://localhost:5000/register
+// DB config
+import User from '../models/User.js';
+
+// api routes
 router.post(
 	'/',
 	[
-		check('name', 'Please provide a name').not().isEmpty(),
-		check('email', 'Please provide a valid email').isEmail(),
-		check('password', 'Please provide 6 character long password').isLength({
-			min: 6,
-		}),
+		check('email', 'Please provide an email').isEmail(),
+		check('password', 'Please provide the password').exists(),
 	],
 	async (req, res) => {
 		const errors = validationResult(req);
-
 		if (!errors.isEmpty()) {
 			return res.status(400).json({ errors: errors.array() });
 		}
-		const { name, email, password } = req.body;
+
+		const { email, password } = req.body;
 		try {
 			let user = await User.findOne({ email });
-			if (user) {
-				return res.status(400).json({ msg: 'User already exists' });
+			if (!user) {
+				return res.status(400).json({ msg: 'Invalid Email' });
 			}
-			user = new User({
-				name,
-				email,
-				password,
-			});
-			const salt = await bcrypt.genSalt(10);
-			user.password = await bcrypt.hash(password, salt);
+			// match password with bcrypt
+			const isMatch = await bcrypt.compare(password, user.password);
 
-			await user.save();
-
+			if (!isMatch) {
+				return res.status(400).json({ msg: 'Invalid Password' });
+			}
+			// assign webtoken
 			const payload = {
 				user: {
 					id: user.id,
@@ -57,12 +53,12 @@ router.post(
 				},
 				(err, token) => {
 					if (err) throw err;
-					res.send({ token });
+					res.json({ token });
 				}
 			);
 		} catch (err) {
 			console.error(err.message);
-			res.status(500).send('Server Error');
+			res.status(400).send('Server Error');
 		}
 	}
 );
