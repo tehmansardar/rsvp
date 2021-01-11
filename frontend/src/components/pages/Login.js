@@ -1,12 +1,37 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 const Login = () => {
+	const [user, setUser] = useState({
+		email: '',
+		password: '',
+	});
+	const { email, password } = user;
+
+	const handleChange = (e) => {
+		setUser({ ...user, [e.target.name]: e.target.value });
+	};
+	const onsubmit = (e) => {
+		e.preventDefault();
+		console.log({ email, password });
+	};
 	return (
 		<div className='login'>
 			<h1>Sign in</h1>
-			<form>
-				<input type='email' name='email' placeholder='Email' />
-				<input type='password' name='password' placeholder='Password' />
+			<form onSubmit={onsubmit}>
+				<input
+					type='email'
+					name='email'
+					placeholder='Email'
+					value={email}
+					onChange={handleChange}
+				/>
+				<input
+					type='password'
+					name='password'
+					placeholder='Password'
+					value={password}
+					onChange={handleChange}
+				/>
 
 				<input type='submit' value='Sign Up' className='btn' />
 			</form>
