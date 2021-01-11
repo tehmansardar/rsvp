@@ -61,6 +61,32 @@ router.post(
 	}
 );
 
+// @route PUT /guests/:id
+// @des update guest
+// @access Private
+
+router.put('/:id', auth, async (req, res) => {
+	const { name, phone, diet, isconfirmed } = req.body;
+
+	// build Guest object
+	const guestFields = { name, phone, diet, isconfirmed };
+
+	try {
+		let guest = await Guest.findById(req.params.id);
+		if (!guest) return res.status(404).json({ msg: 'Guest not found' });
+
+		guest = await Guest.findByIdAndUpdate(
+			req.params.id,
+			{ $set: guestFields },
+			{ new: true }
+		);
+		res.send(guest);
+	} catch (error) {
+		console.errors(error.message);
+		res.status(500).send('Server Error');
+	}
+});
+
 // @route DELETE /guests/:id
 // @des Delete a guest
 // @access Private
