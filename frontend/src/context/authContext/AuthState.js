@@ -10,6 +10,7 @@ import {
 	FAIL_LOGIN,
 	SET_ERROR,
 	CLEAR_EEROR,
+	LOG_OUT,
 } from '../types';
 
 const AuthState = (props) => {
@@ -66,6 +67,13 @@ const AuthState = (props) => {
 		}
 	};
 
+	// logout user
+	const logoutUser = () => {
+		dispatch({
+			type: LOG_OUT,
+		});
+	};
+
 	const setError = (err) => {
 		dispatch({
 			type: SET_ERROR,
@@ -86,6 +94,7 @@ const AuthState = (props) => {
 				errors: state.errors,
 				registerUser,
 				loginUser,
+				logoutUser,
 				setError,
 				clearError,
 			}}

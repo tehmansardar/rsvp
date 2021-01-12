@@ -5,6 +5,7 @@ import {
 	FAIL_LOGIN,
 	SET_ERROR,
 	CLEAR_EEROR,
+	LOG_OUT,
 } from '../types';
 
 export default (state, { type, payload }) => {
@@ -19,6 +20,8 @@ export default (state, { type, payload }) => {
 			};
 		case FAIL_REGISTER:
 		case FAIL_LOGIN:
+		case LOG_OUT:
+			localStorage.removeItem('token');
 			return {
 				...state,
 				userAuth: null,
