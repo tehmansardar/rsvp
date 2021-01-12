@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
+import AuthContext from '../../context/authContext/authContext';
 const Register = () => {
 	const [user, setUser] = useState({
 		name: '',
@@ -8,7 +9,7 @@ const Register = () => {
 		password2: '',
 	});
 	const { name, email, password, password2 } = user;
-
+	const { registerUser } = useContext(AuthContext);
 	const handleChange = (e) => {
 		setUser({ ...user, [e.target.name]: e.target.value });
 	};
@@ -17,7 +18,7 @@ const Register = () => {
 		if (password !== password2) {
 			console.log("Password don't match");
 		} else {
-			console.log({ name, email, password });
+			registerUser({ name, email, password });
 		}
 	};
 	return (

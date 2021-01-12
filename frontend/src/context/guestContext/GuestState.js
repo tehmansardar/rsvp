@@ -10,7 +10,7 @@ import {
 	UPDATE_GUEST,
 	EDIT_GUEST,
 	CLEAR_EDIT,
-} from '../guestContext/types';
+} from '../types';
 
 const GuestState = (props) => {
 	const initialState = {

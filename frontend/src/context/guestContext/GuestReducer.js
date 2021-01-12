@@ -7,7 +7,7 @@ import {
 	UPDATE_GUEST,
 	EDIT_GUEST,
 	CLEAR_EDIT,
-} from '../guestContext/types';
+} from '../types';
 
 export default (state, { type, payload }) => {
 	switch (type) {
