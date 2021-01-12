@@ -3,6 +3,7 @@ import { useReducer } from 'react';
 import axios from 'axios';
 import AuthContext from './authContext';
 import authReducer from './authReducer';
+import setToken from '../../utils/setToken';
 import {
 	SUCCESS_REGISTER,
 	SUCCESS_LOGIN,
@@ -11,15 +12,37 @@ import {
 	SET_ERROR,
 	CLEAR_EEROR,
 	LOG_OUT,
+	SET_USER,
+	AUTH_ERROR,
 } from '../types';
 
 const AuthState = (props) => {
 	const initialState = {
+		user: null,
 		userAuth: null,
 		errors: null,
 	};
 
 	const [state, dispatch] = useReducer(authReducer, initialState);
+
+	// get user
+	const getUser = async () => {
+		if (localStorage.token) {
+			setToken(localStorage.token);
+		}
+		try {
+			const res = await axios.get('/auth');
+			dispatch({
+				type: SET_USER,
+				payload: res.data,
+			});
+		} catch (error) {
+			dispatch({
+				type: AUTH_ERROR,
+				payload: error,
+			});
+		}
+	};
 
 	// register User
 	const registerUser = async (userData) => {
@@ -90,8 +113,10 @@ const AuthState = (props) => {
 	return (
 		<AuthContext.Provider
 			value={{
+				user: state.user,
 				userAuth: state.userAuth,
 				errors: state.errors,
+				getUser,
 				registerUser,
 				loginUser,
 				logoutUser,

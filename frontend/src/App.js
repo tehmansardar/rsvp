@@ -7,6 +7,11 @@ import AuthState from './context/authContext/AuthState';
 import Register from './components/pages/Register';
 import Login from './components/pages/Login';
 import PrivateRoute from './components/routes/PrivateRoute';
+import setToken from './utils/setToken';
+
+if (localStorage.token) {
+	setToken(localStorage.token);
+}
 
 function App() {
 	return (
