@@ -2,6 +2,8 @@ import {
 	TOGGLE_FILTER,
 	SEARCH_GUEST,
 	CLEAR_SEARCH,
+	GET_GUEST,
+	GUEST_ERROR,
 	ADD_GUEST,
 	REMOVE_GUEST,
 	UPDATE_GUEST,
@@ -30,6 +32,13 @@ export default (state, { type, payload }) => {
 				search: null,
 			};
 
+		case GET_GUEST:
+			return {
+				...state,
+				guests: payload,
+				error: null,
+			};
+
 		case ADD_GUEST:
 			return {
 				...state,
@@ -39,13 +48,13 @@ export default (state, { type, payload }) => {
 		case REMOVE_GUEST:
 			return {
 				...state,
-				guests: state.guests.filter((guest) => guest.id !== payload),
+				guests: state.guests.filter((guest) => guest._id !== payload),
 			};
 		case UPDATE_GUEST:
 			return {
 				...state,
 				guests: state.guests.map((guest) =>
-					guest.id === payload.id ? payload : guest
+					guest._id === payload._id ? payload : guest
 				),
 			};
 		case EDIT_GUEST:
@@ -57,6 +66,11 @@ export default (state, { type, payload }) => {
 			return {
 				...state,
 				editAble: null,
+			};
+		case GUEST_ERROR:
+			return {
+				...state,
+				error: payload,
 			};
 		default:
 			return state;
