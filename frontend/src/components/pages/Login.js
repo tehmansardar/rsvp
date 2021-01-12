@@ -1,18 +1,30 @@
-import React, { useState } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-const Login = () => {
+import AuthContext from '../../context/authContext/authContext';
+
+const Login = (props) => {
 	const [user, setUser] = useState({
 		email: '',
 		password: '',
 	});
 	const { email, password } = user;
 
+	const { loginUser, clearError, userAuth, errors } = useContext(AuthContext);
+
+	useEffect(() => {
+		if (userAuth) {
+			props.history.push('/');
+		}
+	}, [userAuth, props.history]);
+
 	const handleChange = (e) => {
 		setUser({ ...user, [e.target.name]: e.target.value });
+		clearError();
 	};
 	const onsubmit = (e) => {
 		e.preventDefault();
-		console.log({ email, password });
+		loginUser({ email, password });
+		clearError();
 	};
 	return (
 		<div className='login'>
@@ -36,6 +48,12 @@ const Login = () => {
 				<input type='submit' value='Sign Up' className='btn' />
 			</form>
 			<div className='question'>
+				{errors !== null && (
+					<button className='danger'>
+						{errors.msg ? errors.msg : errors.errors[0].msg}
+						<span onClick={() => clearError()}>X</span>
+					</button>
+				)}
 				<p>
 					Don't have account? <Link to='/register'>Sign up</Link>
 				</p>
